@@ -32,7 +32,7 @@ from src.module_1 import m_1_2_1
         ),  # >=32
     ],
 )
-def test_m_1_2_1(inputs, expected, mocker, capsys):
+def test_1_2_1(inputs, expected, mocker, capsys):
     """
     Тесты для вычисления ИМТ с проверкой границ по возрасту.
     """
