@@ -1,7 +1,7 @@
 # Stepick.org — Python в примерах и задачах
 # 1. Простые программы на Python, основы вычислений
 
-from math import asin, cos, sqrt, pi
+from math import asin, cos, sqrt, pi, ceil
 
 # === 1.1 Задача. "Hello, world!" ===
 
@@ -255,7 +255,20 @@ def m_1_4_4():
     Выходные данные: число и слово рубль в нужном падеже
     (строка текста) или ошибка.
     """
-    pass
+
+    def main():
+        k = int(input())
+        if k not in range(1, 100):
+            return "ошибка"
+        word = "рублей"
+        if k not in (11, 12, 13, 14):
+            if k % 10 == 1:
+                word = "рубль"
+            elif k % 10 in (2, 3, 4):
+                word = "рубля"
+        return f"{k} {word}"
+
+    print(main())
 
 
 def m_1_4_5():
@@ -277,7 +290,17 @@ def m_1_4_5():
 
     Выходные данные: количество банок краски или error.
     """
-    pass
+
+    def main():
+        a, b, v = float(input()), float(input()), int(input())
+        conditions = a > 0 and b > 0 and v > 0
+        if not conditions:
+            return "error"
+        s = 5 * a**2
+        count = s * b / (v * 1000)
+        return ceil(count)
+
+    print(main())
 
 
 def m_1_4_6():
@@ -300,4 +323,13 @@ def m_1_4_6():
     Выходные данные: значение угла в градусах или error.
     Результат округлить до двух знаков после запятой.
     """
-    pass
+
+    def main():
+        h, m, s = int(input()), int(input()), int(input())
+        conditions = h in range(0, 12) and m in range(0, 60) and s in range(0, 60)
+        if not conditions:
+            return "error"
+        angle = 360 / 12 * h + 360 / (12 * 60) * m + 360 / (12 * 60 * 60) * s
+        return round(angle, 2)
+
+    print(main())

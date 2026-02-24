@@ -3,9 +3,13 @@ from src.module_1 import (
     m_1_4_1,
     m_1_4_2,
     m_1_4_3,
+    m_1_4_4,
+    m_1_4_5,
+    m_1_4_6,
 )
 
 
+# m_1_4_1
 @pytest.mark.parametrize(
     "input_val, expected",
     [
@@ -32,6 +36,7 @@ def test_1_4_1(input_val, expected, mocker, capsys):
     assert captured.out == expected
 
 
+# m_1_4_2
 @pytest.mark.parametrize(
     "inputs, expected",
     [
@@ -56,6 +61,7 @@ def test_1_4_2(inputs, expected, mocker, capsys):
     assert captured.out == expected
 
 
+# m_1_4_3
 @pytest.mark.parametrize(
     "input_year, expected",
     [
@@ -68,7 +74,6 @@ def test_1_4_2(inputs, expected, mocker, capsys):
         ("1600", "366\n"),  # ÷400 ✓
         ("1700", "365\n"),  # ÷100 но не ÷400 ✗
         ("2024", "366\n"),  # ÷4 ✓
-        # Ошибки
         ("1582", "error\n"),  # ≤1582
         ("1500", "error\n"),  # До григорианского
     ],
@@ -81,3 +86,65 @@ def test_1_4_3(input_year, expected, mocker, capsys):
     m_1_4_3()
     captured = capsys.readouterr()
     assert captured.out == expected
+
+
+# m_1_4_4
+@pytest.mark.parametrize(
+    "input_val, expected",
+    [
+        ("2", "2 рубля\n"),
+        ("25", "25 рублей\n"),
+        ("41", "41 рубль\n"),
+        ("1", "1 рубль\n"),
+        ("11", "11 рублей\n"),
+        ("0", "ошибка\n"),
+        ("-2", "ошибка\n"),
+        ("100", "ошибка\n"),
+    ],
+)
+def test_1_4_4(input_val, expected, mocker, capsys):
+    mocker.patch("builtins.input", return_value=input_val)
+    m_1_4_4()
+    assert capsys.readouterr().out == expected
+
+
+# m_1_4_5
+@pytest.mark.parametrize(
+    "inputs, expected",
+    [
+        (["6", "150", "3"], "9\n"),
+        (["6.5", "150.6", "4"], "8\n"),
+        # Граничные
+        (["1", "1000", "1"], "5\n"),
+        # Ошибки
+        (["0", "150", "3"], "error\n"),
+        (["6", "0", "3"], "error\n"),
+        (["6", "150", "0"], "error\n"),
+        (["-1", "150", "3"], "error\n"),
+    ],
+)
+def test_1_4_5(inputs, expected, mocker, capsys):
+    mocker.patch("builtins.input", side_effect=inputs)
+    m_1_4_5()
+    assert capsys.readouterr().out == expected
+
+
+# m_1_4_6
+@pytest.mark.parametrize(
+    "inputs, expected",
+    [
+        (["12", "1", "1"], "error\n"),  # h=12 >11
+        (["6", "47", "19"], "203.66\n"),
+        # Граничные
+        (["0", "0", "0"], "0.0\n"),
+        (["11", "59", "59"], "359.99\n"),
+        # Ошибки
+        (["13", "0", "0"], "error\n"),
+        (["6", "60", "0"], "error\n"),
+        (["6", "0", "60"], "error\n"),
+    ],
+)
+def test_1_4_6(inputs, expected, mocker, capsys):
+    mocker.patch("builtins.input", side_effect=inputs)
+    m_1_4_6()
+    assert capsys.readouterr().out == expected
